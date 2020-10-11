@@ -15,6 +15,8 @@
 
 ## Config Errors
 
+[Allegro](https://allegro.tech/2018/08/postmortem-why-allegro-went-down.html). E-commerce site went down after a sudden traffic spike caused by a marketing campaign. The outage was caused by a configuration error in cluster resource management which prevented more service instances from starting even though hardware resources were available.   
+
 [Cloudflare](https://blog.cloudflare.com/todays-outage-post-mortem-82515/). A bad config (router rule) caused all of their edge routers to crash, taking down all of Cloudflare.
 
 [Etsy](https://codeascraft.com/2012/01/23/solr-bittorrent-index-replication/). Sending multicast traffic without properly configuring switches caused an Etsy global outage.
@@ -57,6 +59,8 @@
 
 [Valve](https://blog.thousandeyes.com/steam-outage-monitor-data-center-connectivity/). Although there's no official postmortem, it looks like a bad BGP config severed Valve's connection to Level 3, Telia, and Abovenet/Zayo, which resulted in a global Steam outage.
 
+[Cloudflare](https://blog.cloudflare.com/cloudflare-outage-on-july-17-2020/). During a maintenance of their private backbone network, an engineer made a typo in the Atlanta datacenter network configuration, causing all traffic coming from America and Europe flowing to this only datacenter, crushing it.
+
 ## Hardware/Power Failures
 
 [Amazon](http://aws.amazon.com/message/2329B7/). An unknown event caused a transformer to fail. One of the PLCs that checks that generator power is in phase failed for an unknown reason, which prevented a set of backup generators from coming online. This affected EC2, EBS, and RDS in EU West.
@@ -73,6 +77,8 @@
 
 [Google](https://status.cloud.google.com/incident/compute/15056#5719570367119360). Successive lightning strikes on their European datacenter (europe-west1-b) caused loss of power to Google Compute Engine storage systems within that region. I/O errors were observed on a subset of Standard Persistent Disks (HDDs) and permanent data loss was observed on a small fraction of those.
 
+[PythonAnywhere](https://blog.pythonanywhere.com/189/). A storage volume failure on one of storage servers caused a number of outages, starting with PythonAnywhere site and also with our users’ programs (including websites) that were dependent on that volume, and later spreading to other hosted sites.
+
 [Sun](https://www.forbes.com/forbes/2000/1113/6613068a.html#6d1bdc036162). Sun famously didn't include ECC in a couple generations of server parts. This resulted in data corruption and crashing. Following Sun's typical MO, they made customers that reported a bug sign an NDA before explaining the issue.
 
 ## Conflicts
@@ -85,7 +91,7 @@
 
 [Google](https://status.cloud.google.com/incident/compute/17003#5660850647990272). Many changes to a rarely modified load balancer were applied through a very slow code path. This froze all public addressing changes for ~2 hours.
 
-[Knight Capital](http://pythonsweetness.tumblr.com/post/64740079543/how-to-lose-172222-a-second-for-45-minutes). A combination of conflicting deployed versions and re-using a previously used bit caused a $460M loss.
+[Knight Capital](https://dougseven.com/2014/04/17/knightmare-a-devops-cautionary-tale/). A combination of conflicting deployed versions and re-using a previously used bit caused a $460M loss.
 
 [WebKit code repository](http://blogs.collab.net/subversion/subversion-sha1-collision-problem-statement-prevention-remediation-options). The WebKit repository, a Subversion repository configured to use deduplication, became unavailable after two files with the same SHA-1 hash were checked in as test data, with the intention of implementing a safety check for collisions. The two files had different md5 sums and so a checkout would fail a consistency check. For context, the first public SHA-1 hash collision had very recently been announced, with an example of two colliding files.
 
@@ -118,6 +124,10 @@
 [AppNexus](http://techblog.appnexus.com/2013/2013-09-17-outage-postmortem/). A double free revealed by a database update caused all "impression bus" servers to crash simultaneously. This wasn't caught in staging and made it into production because a time delay is required to trigger the bug, and the staging period didn't have a built-in delay.
 
 [AT&T](http://users.csc.calpoly.edu/~jdalbey/SWE/Papers/att_collapse.html). A bad line of C code introduced a race hazard which in due course collapsed the phone network. After a planned outage, the quickfire resumption messages triggered the race,  causing more reboots which retriggered the problem. "The problem repeated iteratively throughout the 114 switches in the network, blocking over 50 million calls in the nine hours it took to stabilize the system." From 1990.
+
+[Basecamp](https://signalvnoise.com/posts/3729-basecamp-network-attack-postmortem), [see also](https://signalvnoise.com/posts/3728-basecamp-was-under-network-attack-this-morning). Basecamp's network was under a DDoS attack during a 100-minute window on March 24, 2014.
+
+[Basecamp](https://m.signalvnoise.com/postmortem-on-the-read-only-outage-of-basecamp-on-november-9th-2018/), [see also](https://m.signalvnoise.com/update-on-basecamp-3-being-stuck-in-read-only-as-of-nov-8-922am-cst/). In November 2018 a database hit the integer limit, leaving the service in read-only mode. 
 
 [BBC Online](http://www.bbc.co.uk/blogs/internet/entries/a37b0470-47d4-3991-82bb-a7d5b8803771). In July 2014, BBC Online experienced a very long outage of several of its popular online services including the BBC iPlayer. When the database backend was overloaded, it had started to throttle requests from various services. Services that hadn't cached the database responses locally began timing out and eventually failed completely.
 
@@ -162,6 +172,8 @@
 [ESLint](https://eslint.org/blog/2018/07/postmortem-for-malicious-package-publishes). On July 12th, 2018, an attacker compromised the npm account of an ESLint maintainer and published malicious packages to the npm registry.
 
 [Etsy](https://blog.etsy.com/news/2012/demystifying-site-outages/). First, a deploy that was supposed to be a small bugfix deploy also caused live databases to get upgraded on running production machines. To make sure that this didn't cause any corruption, Etsy stopped serving traffic to run integrity checks. Second, an overflow in ids (signed 32-bit ints) caused some database operations to fail. Etsy didn't trust that this wouldn't result in data corruption and took down the site while the upgrade got pushed.
+
+[Flowdock](https://flowdock-resources.s3.amazonaws.com/legal/Flowdock-RCA-For-Incident-On-2020-04-21.pdf). Flowdock instant messaging was unavailable for approx 24 hrs between April 21-22 2020. The COVID-19 pandemic caused a sudden and drastic increase in working from home, which caused a higher usage of Flowdock, which caused high CPU usage, which caused the application database to hang. Some user data was permanently lost.
 
 [Foursquare](https://news.ycombinator.com/item?id=1769761). MongoDB fell over under load when it ran out of memory. The failure was catastrophic and not graceful due to a a query pattern that involved a read-load with low levels of locality (each user check-in caused a read of all check-ins for the user's history, and records were 300 bytes with no spatial locality, meaning that most of the data pulled in from each page was unnecessary). A lack of monitoring on the MongoDB instances caused the high load to go undetected until the load became catastrophic, causing 17 hours of downtime spanning two incidents in two days.
 
@@ -326,6 +338,7 @@
 * Ben Zanin
 * Brad Baris
 * Brendan McLoughlin
+* Brent Eritou
 * Brian Scanlan
 * Brock Boland
 * Chris Higgs
@@ -361,6 +374,7 @@
 * Massimiliano Arione
 * Matt Day
 * Michael Robinson
+* Michał Kosmulski
 * Mike Doherty
 * Mohit Agarwal
 * Nat Welch
